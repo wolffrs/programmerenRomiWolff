@@ -1,58 +1,60 @@
 console.log('Dit is de kikker');
 
-/* code voor de kikker kleren */
+/////////////// VERANDER ACHTERGROND EN KLEREN VAN DE KIKKER ///////////////
+
+// HTML elementen voor verandering in achtergrond en kleren
 
 var weatherCondition;
 var clothesCondition;
 var emotion;
 
-var kikkerFoto = document.querySelector('#kikker'); /* var frog picture */
+var kikkerFoto = document.querySelector('#kikker');  
 var naaktButton = document.querySelector('#naakt'); 
 var regenpakButton = document.querySelector('#regenpak'); 
 var mutsButton = document.querySelector('#muts'); 
 
-var hetWeer = document.querySelector('#natuur'); /* var the weather */
+var hetWeer = document.querySelector('#natuur'); 
 var regenButton = document.querySelector('#stortbui');
 var sneeuwButton = document.querySelector('#koud'); 
 var zonButton = document.querySelector('#zonnig'); 
 
 
-function draagNiks() { /* function nakey frog */
+// DOM manipulaties
+
+function draagNiks() { 
     console.log('Oepsies, geen kleren aan.');
     kikkerFoto.src = 'kikker/kikker-normaal-neutraal.png';
 }
 
-function draagRegenpak() { /* function frog wears raincoat */
+function draagRegenpak() { 
     console.log('Beschermd tegen de regen!')
     kikkerFoto.src = 'kikker/kikker-regen-neutraal.png';
 }
 
-function draagMuts() { /* function frog wears winter clothes */
+function draagMuts() { 
     console.log('Beschermd tegen de kou!');
     kikkerFoto.src = 'kikker/kikker-winter-neutraal.png';
 }
 
-function regenValt() { /* function it's raining */
+function regenValt() {
     console.log('Zoek onderdak!');
     hetWeer.classList.remove("hetSneeuwt", "zonnetjeSchijnt");
     hetWeer.classList.add("hetRegent");
 }
 
-function zonSchijnt() { /* function it's sunny */
+function zonSchijnt() { 
     console.log('Lekker zonnetje.');
     hetWeer.classList.remove("hetSneeuwt", "hetRegent");
     hetWeer.classList.add("zonnetjeSchijnt");
 }
 
-function sneeuwValt() { /* function frog it's snowing*/
+function sneeuwValt() { 
     console.log('Brrr!'); 
     hetWeer.classList.remove("hetRegent", "zonnetjeSchijnt");
     hetWeer.classList.add("hetSneeuwt");
 }
 
-naaktButton.addEventListener( 'click', draagNiks )
-    clothesCondition = "naked";
-;
+// EVENT LISTENERS //
 
 naaktButton.addEventListener( 'click', ()=>{
     draagNiks();
@@ -72,13 +74,11 @@ mutsButton.addEventListener( 'click', ()=>{
     updateEmotion();
 });
 
-
 regenButton.addEventListener( 'click', ()=>{
     regenValt();
     weatherCondition = "rain";
     updateEmotion();
 });
-
 
 sneeuwButton.addEventListener( 'click', ()=>{
     sneeuwValt();
@@ -92,9 +92,9 @@ zonButton.addEventListener( 'click', ()=>{
     updateEmotion();
 });
 
-var message;
+// IF ELSE STATEMENTS
 
-const updateEmotion = () => {
+var updateEmotion = () => {
 
     if (clothesCondition === "raincoat" && weatherCondition === "rain" ) {
         kikkerFoto.src = "kikker/kikker-regen-blij.png"
@@ -119,19 +119,43 @@ const updateEmotion = () => {
     }
 }   
 
+/////////////// GEEF DE KIKKER EEN NAAM ///////////////
+// HTML elementen
+
 var kikkerNaam = document.querySelector('#ikBen');
 var geefNaam = document.querySelector('#input');
+
+// DOM manipulatie
 
 function naamGeven () {
     console.log('Jij geeft mij nu een naam!');
     kikkerNaam.textContent = 'Prachtig, ik heet nu ' + geefNaam.value + '!';
 }
 
+// EventListener
+
 geefNaam.addEventListener('change' , naamGeven);
 
+/////////////// TIME OUT KNOP MET NAAM VALUE ///////////////
+// Html elementen
 
+var popUpKnop = document.querySelector('#popUp');
+var timeoutID;
 
-// vlieg
+// DOM manipulatie 
+
+function knopKlikken () {
+    console.log('Jij klikt nu op de knop waar niet klikken op stond!');
+    timeoutID = window.setTimeout(window.alert, 1000, 'Kom terug! ' + geefNaam.value + ' mist je. :(' );
+}
+
+// EvetListener
+
+popUpKnop.addEventListener('click', knopKlikken);
+
+/////////////// HOVER OVER DE VLIEG, HIJ ZOOMT, KLIK OP DE VLIEG, VLIEG OPGEGETEN ///////////////
+// HTML elementen
+
 var buzzAudio = document.querySelector('#buzz');
 var eatAudio = document.querySelector('#eat');
 var vliegImg = document.querySelector('#deVlieg');
@@ -151,6 +175,8 @@ function nobuzz() {
 function eat () {
     console.log('Vlieg opgegeten')
     eatAudio.play();
+    vliegImg.remove();
+    buzzAudio.pause();
 }
 
 // eventListeners
@@ -158,3 +184,28 @@ function eat () {
 vliegImg.addEventListener('mouseover', buzz);
 vliegImg.addEventListener('mouseout', nobuzz);
 vliegImg.addEventListener('click', eat);
+
+/////////////// EEN VERSTOPT BERICHTJE ///////////////
+// HTML elementen
+
+var geheimKnop = document.querySelector('#geheimBerichtje');
+
+// DOM manipulatie met parameters
+
+function createTxt( _padding = '10px', height = 'min-content', width = '300px', border = 'dashed 5px white') {
+    console.log('Geheim berichtje?');
+    
+    var secretTxt = document.createElement("p");
+
+    secretTxt.style.height = height;
+    secretTxt.style.width = width;
+    secretTxt.style.border = border;
+
+    secretTxt.innerHTML = "Gevonden! Wist je dat wanneer je op de vlieg klikt, deze opgegeten wordt?"
+    
+    document.body.appendChild(secretTxt);
+}
+
+// EventListener
+
+geheimKnop.addEventListener('click', createTxt);
